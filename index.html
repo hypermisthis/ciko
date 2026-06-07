@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soru 🤔</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f5f7fa;
+    font-family:Arial,sans-serif;
+}
+
+.card{
+    background:white;
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+    width:400px;
+}
+
+img{
+    width:220px;
+    border-radius:15px;
+}
+
+h1{
+    margin:20px 0;
+}
+
+button{
+    padding:12px 24px;
+    font-size:18px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    margin:8px;
+}
+
+#evet{
+    background:#4caf50;
+    color:white;
+}
+
+#hayir{
+    background:#e0e0e0;
+    transition:all .4s ease;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <img id="cat"
+    src="https://media.tenor.com/JIX9Vt6L0rcAAAAC/cat.gif">
+
+    <h1 id="title">Beni seviyor musun? 😼</h1>
+
+    <button id="evet">Evet</button>
+    <button id="hayir">Hayır</button>
+</div>
+
+<script>
+const hayir = document.getElementById("hayir");
+
+hayir.style.position = "fixed";
+
+hayir.addEventListener("mouseenter", () => {
+    hayir.style.left =
+        Math.random() * (window.innerWidth - 120) + "px";
+
+    hayir.style.top =
+        Math.random() * (window.innerHeight - 60) + "px";
+});
+
+document.getElementById("evet").onclick = () => {
+    document.getElementById("cat").src =
+    "https://media.tenor.com/2roX3uxz_68AAAAC/cat-cat-jump.gif";
+
+    document.getElementById("title").innerText =
+    "biliyordum";
+};
+</script>
+
+</body>
+</html>
