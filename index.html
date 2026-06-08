@@ -3,89 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Soru 🤔</title>
+<title>Bir Şey Sorucam</title>
 
 <style>
-body{
+*{
     margin:0;
-    height:100vh;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f8f8f8;
     display:flex;
     justify-content:center;
     align-items:center;
-    background:#f5f7fa;
-    font-family:Arial,sans-serif;
+    height:100vh;
 }
 
 .card{
     background:white;
-    padding:40px;
-    border-radius:20px;
+    width:550px;
+    max-width:95%;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:0 15px 35px rgba(0,0,0,.12);
     text-align:center;
-    box-shadow:0 10px 30px rgba(0,0,0,0.1);
-    width:400px;
 }
 
 img{
-    width:220px;
-    border-radius:15px;
+    width:260px;
+    height:260px;
+    object-fit:cover;
+    border-radius:20px;
 }
 
 h1{
     margin:20px 0;
+    color:#222;
+}
+
+p{
+    color:#666;
+    margin-bottom:20px;
 }
 
 button{
-    padding:12px 24px;
-    font-size:18px;
     border:none;
+    padding:12px 25px;
     border-radius:12px;
     cursor:pointer;
+    font-size:18px;
     margin:8px;
+    transition:.25s;
 }
 
 #evet{
-    background:#4caf50;
+    background:#4CAF50;
     color:white;
 }
 
+#evet:hover{
+    transform:scale(1.05);
+}
+
 #hayir{
-    background:#e0e0e0;
-    transition:all .4s ease;
+    background:#ececec;
+}
+
+#message{
+    margin-top:15px;
+    color:#555;
+    font-weight:bold;
 }
 </style>
 </head>
 <body>
 
 <div class="card">
-    <img id="cat"
-    src="https://media.tenor.com/JIX9Vt6L0rcAAAAC/cat.gif">
 
-    <h1 id="title">Beni seviyor musun? 😼</h1>
+<img id="cat"
+src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=500">
 
-    <button id="evet">Evet</button>
-    <button id="hayir">Hayır</button>
+<h1 id="title">Bir sorum var 😼</h1>
+
+<p id="desc">Dürüst cevap ver.</p>
+
+<button id="evet">Evet</button>
+<button id="hayir">Hayır</button>
+
+<div id="message"></div>
+
 </div>
 
 <script>
+
+const cat = document.getElementById("cat");
+const title = document.getElementById("title");
+const message = document.getElementById("message");
 const hayir = document.getElementById("hayir");
+const evet = document.getElementById("evet");
+
+const texts = [
+    "Emin misin? 😾",
+    "Bir daha düşün bence 🤨",
+    "Kedi sana kırıldı 😿",
+    "Yok yok yanlış seçenek o 😼",
+    "Yakalayamazsın 😎"
+];
+
+let count = 0;
+let size = 18;
 
 hayir.style.position = "fixed";
 
 hayir.addEventListener("mouseenter", () => {
+
+    message.innerText = texts[Math.min(count, texts.length - 1)];
+
     hayir.style.left =
-        Math.random() * (window.innerWidth - 120) + "px";
+    Math.random() * (window.innerWidth - 150) + "px";
 
     hayir.style.top =
-        Math.random() * (window.innerHeight - 60) + "px";
+    Math.random() * (window.innerHeight - 80) + "px";
+
+    size += 3;
+    evet.style.fontSize = size + "px";
+
+    count++;
 });
 
-document.getElementById("evet").onclick = () => {
-    document.getElementById("cat").src =
-    "https://media.tenor.com/2roX3uxz_68AAAAC/cat-cat-jump.gif";
+evet.onclick = () => {
 
-    document.getElementById("title").innerText =
-    "biliyordum";
+    document.querySelector(".card").innerHTML = `
+        <img style="width:260px;height:260px;border-radius:20px"
+        src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=500">
+
+        <h1 style="margin-top:20px">
+        Tahmin etmiştim 😼
+        </h1>
+
+        <p style="margin-top:10px">
+        Bugünün en güzel haberi buydu.
+        </p>
+
+        <p style="margin-top:15px">
+        Ödül olarak sana bir kedi 🐱
+        </p>
+    `;
 };
+
+setTimeout(()=>{
+    title.innerText = "Beni seviyor musun?";
+},1500);
+
 </script>
 
 </body>
