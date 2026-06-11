@@ -3,69 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kediyi Bul!</title>
+<title>Kediyi Bul 😺</title>
 
 <style>
-body{
+*{
     margin:0;
-    font-family:Arial,sans-serif;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
     background:linear-gradient(135deg,#87CEEB,#FFD1DC);
+    font-family:Arial,sans-serif;
     text-align:center;
+    padding:15px;
 }
 
 h1{
     color:white;
-    text-shadow:2px 2px 5px black;
+    text-shadow:2px 2px 4px rgba(0,0,0,.4);
+    margin-bottom:10px;
 }
 
 #score{
-    font-size:28px;
     color:white;
-    margin-bottom:20px;
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+#message{
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:15px;
 }
 
 .grid{
-    width:min(90vw,600px);
+    width:min(95vw,900px);
     margin:auto;
     display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:10px;
+    grid-template-columns:repeat(10,1fr);
+    gap:4px;
 }
 
 .box{
     aspect-ratio:1;
     border:none;
-    border-radius:15px;
-    font-size:40px;
-    cursor:pointer;
+    border-radius:8px;
     background:white;
-    transition:.2s;
+    cursor:pointer;
+    font-size:18px;
+    transition:.15s;
 }
 
 .box:hover{
     transform:scale(1.05);
 }
 
-#message{
-    margin-top:20px;
-    font-size:24px;
-    color:white;
-    font-weight:bold;
-}
-
 #reward{
     display:none;
     position:fixed;
     inset:0;
-    background:black;
+    background:rgba(0,0,0,.95);
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    z-index:999;
+    z-index:9999;
 }
 
 #reward h1{
     color:white;
+    margin-bottom:20px;
 }
 
 #reward img{
@@ -79,49 +89,55 @@ h1{
 
 <h1>😺 Kediyi Bul 😺</h1>
 
-<div id="score">Skor: 0 / 5</div>
+<div id="score">Bulunan Kedi: 0 / 5</div>
+<div id="message">100 kutudan birinde kedi gizli!</div>
 
 <div class="grid" id="grid"></div>
 
-<div id="message">Kediyi bul!</div>
-
 <div id="reward">
     <h1>🎉 Tebrikler 🎉</h1>
-    <img src="odul.png">
+    <img src="odul.png" alt="Ödül">
 </div>
 
 <script>
+const TOTAL_BOXES = 100;
+
 const grid = document.getElementById("grid");
 const scoreText = document.getElementById("score");
 const message = document.getElementById("message");
 
-let score = 0;
 let catIndex = 0;
+let score = 0;
 
-function newRound(){
+function createRound(){
 
     grid.innerHTML = "";
 
-    catIndex = Math.floor(Math.random()*25);
+    catIndex = Math.floor(Math.random() * TOTAL_BOXES);
 
-    for(let i=0;i<25;i++){
+    for(let i=0;i<TOTAL_BOXES;i++){
 
         const btn = document.createElement("button");
+
         btn.className = "box";
         btn.textContent = "📦";
 
         btn.onclick = () => {
 
+            if(btn.disabled) return;
+            btn.disabled = true;
+
             if(i === catIndex){
 
                 btn.textContent = "😺";
+
                 score++;
 
                 scoreText.textContent =
-                `Skor: ${score} / 5`;
+                `Bulunan Kedi: ${score} / 5`;
 
                 message.textContent =
-                "Doğru! Kediyi buldun 😺";
+                "🎉 Kediyi buldun!";
 
                 if(score >= 5){
 
@@ -131,23 +147,53 @@ function newRound(){
                     return;
                 }
 
-                setTimeout(newRound,1000);
+                setTimeout(()=>{
+                    createRound();
+                },1000);
+
+                return;
+            }
+
+            const distance =
+            Math.abs(i - catIndex);
+
+            if(distance <= 2){
+
+                btn.textContent = "🔥";
+                message.textContent =
+                "ÇOK SICAK!";
+
+            }else if(distance <= 6){
+
+                btn.textContent = "🌡️";
+                message.textContent =
+                "Sıcak!";
+
+            }else if(distance <= 12){
+
+                btn.textContent = "🙂";
+                message.textContent =
+                "Yaklaşıyorsun.";
+
+            }else if(distance <= 25){
+
+                btn.textContent = "🥶";
+                message.textContent =
+                "Soğuk.";
 
             }else{
 
-                btn.textContent = "❌";
-
+                btn.textContent = "❄️";
                 message.textContent =
-                "Yanlış kutu 😭";
+                "Çok uzaksın.";
             }
-
         };
 
         grid.appendChild(btn);
     }
 }
 
-newRound();
+createRound();
 </script>
 
 </body>
